@@ -69,4 +69,28 @@ for(let y = 0; y < verticalSize; y++) {
     content.push(row);
 }
 
+// add tops
+let xStart = lefts.length + 1;
+let yPos = 0;
+
+for(let top = 0; top < tops.length; top++) {
+    for(let i = 0; i < tops[top].length; i++) {
+        content[yPos][xStart + i] = tops[top][i];
+    }
+
+    ++yPos;
+}
+
+// add lefts
+let yStart = tops.length + 1;
+let xPos = 0;
+
+for(let left = 0; left < lefts.length; left++) {
+    for(let i = 0; i < lefts[left].length; i++) {
+        content[yStart + i][xPos] = lefts[lefts.length - 1 - left][i];
+    }
+
+    ++xPos;
+}
+
 console.log(content);
