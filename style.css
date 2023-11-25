@@ -20,6 +20,7 @@ td {
 .scoreCell {
     display: flex;
     flex-direction: column;
+    border: 1px solid white;
 }
 .scoreCell p {
     display: flex;
