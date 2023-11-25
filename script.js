@@ -63,7 +63,7 @@ for(let y = 0; y < verticalSize; y++) {
     let row = [];
 
     for(let x = 0; x < horizontalSize; x++) {
-        row.push("E");
+        row.push(" ");
     }
 
     content.push(row);
