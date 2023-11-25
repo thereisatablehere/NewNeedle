@@ -233,6 +233,14 @@ for(let y = 0; y < content.length; y++) {
         // sequence character or descding numbers legend
         else if(content[y][x].length > 0 || content[y][x] <= 0) {
             data.innerHTML = content[y][x];
+
+            // add classes for styling
+            if(content[y][x].length > 0) {
+                data.classList.add("sequence");
+            }
+            else {
+                data.classList.add("descend");
+            }
         }
         else {
             data.innerHTML = ".";
