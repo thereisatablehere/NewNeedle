@@ -1,8 +1,4 @@
-let c = document.querySelector("canvas");
-let r = c.getContext("2d");
-
-let sequences = ["GCATGCG", "GATTACA"];
-console.log(sequences);
+let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
 let tops = [];
 let lefts = [];
@@ -50,5 +46,27 @@ for(let sequence of sequences) {
     topWasLast = !(topWasLast);
 }
 
-console.log("TOPS", tops);
-console.log("LEFTS", lefts);
+console.log("TOPS");
+console.log(tops);
+console.log("LEFTS");
+console.log(lefts);
+
+// set up content grid
+let ref = document.getElementById("mainContainer");
+
+let content = [];
+// plus 1 on each size for margin that goes 0, -1, -2, etc
+let horizontalSize = maxLength + lefts.length + 1;
+let verticalSize = maxLength + tops.length + 1;
+
+for(let y = 0; y < verticalSize; y++) {
+    let row = [];
+
+    for(let x = 0; x < horizontalSize; x++) {
+        row.push(1);
+    }
+
+    content.push(row);
+}
+
+console.log(content);
