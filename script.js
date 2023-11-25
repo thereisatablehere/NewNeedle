@@ -1,5 +1,6 @@
 let sequences = ["DPLE", "DPME"];
 
+
 //sequences = ["GCATGCG", "GATTACA", "AT-AT"];
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
