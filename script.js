@@ -1,5 +1,7 @@
-let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
-// let sequences = ["GCATGCG", "GATTACA", "AT-AT"];
+let sequences = ["GCATGCG", "GATTACA"];
+sequences = ["GCATGCG", "GATTACA", "AT-AT"];
+sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
+// let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
 let tops = [];
 let lefts = [];
