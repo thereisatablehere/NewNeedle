@@ -165,7 +165,7 @@ for(let y = 0; y < content.length; y++) {
                 hoverable.className = "hoverable";
                 hoverable.innerHTML = content[y][x].diagonals[i];
                 if(i < content[y][x].diagonals.length - 1) {
-                    hoverable.innerHTML += ",";
+                    hoverable.innerHTML += "|";
                 }
 
                 hoverable.onmouseover = function() {
@@ -189,7 +189,7 @@ for(let y = 0; y < content.length; y++) {
                 hoverable.className = "hoverable";
                 hoverable.innerHTML = content[y][x].lefts[i];
                 if(i < content[y][x].lefts.length - 1) {
-                    hoverable.innerHTML += ",";
+                    hoverable.innerHTML += "|";
                 }
 
                 hoverable.onmouseover = function() {
@@ -213,7 +213,7 @@ for(let y = 0; y < content.length; y++) {
                 hoverable.className = "hoverable";
                 hoverable.innerHTML = content[y][x].tops[i];
                 if(i < content[y][x].tops.length - 1) {
-                    hoverable.innerHTML += ",";
+                    hoverable.innerHTML += "|";
                 }
 
                 hoverable.onmouseover = function() {
