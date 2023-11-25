@@ -52,8 +52,6 @@ console.log("LEFTS");
 console.log(lefts);
 
 // set up content grid
-let ref = document.getElementById("mainContainer");
-
 let content = [];
 // plus 1 on each size for margin that goes 0, -1, -2, etc
 let horizontalSize = maxLength + lefts.length + 1;
@@ -63,7 +61,7 @@ for(let y = 0; y < verticalSize; y++) {
     let row = [];
 
     for(let x = 0; x < horizontalSize; x++) {
-        row.push(" ");
+        row.push("");
     }
 
     content.push(row);
@@ -147,8 +145,40 @@ for(let i = 0; i < ((maxLength + 1) * (maxLength + 1)); i++) {
     }
 }
 
+console.log("CONTENT");
 console.log(content);
 
-console.log("done");
+// add content as divs
+let ref = document.querySelector("table");
+
+for(let y = 0; y < content.length; y++) {
+    let row = document.createElement("tr");
+    row.className = "row";
+
+    for(let x = 0; x < content[y].length; x++) {
+        let data = document.createElement("td");
+        row.className = "cell";
+
+        console.log(content[y][x], typeof content[y][x])
+
+        // contains scores
+        if(typeof content[y][x] == "object") {
+            data.innerHTML = "SPECIAL";
+        }
+        // sequence character or descding numbers legend
+        else if(content[y][x].length > 0 || content[y][x] <= 0) {
+            data.innerHTML = content[y][x];
+        }
+        else {
+            data.innerHTML = ".";
+        }
+
+        row.appendChild(data);
+    }
+
+    ref.appendChild(row);
+
+}
+console.log("here")
 
 // REMEMBER TO ADD SCORES LEGENED AT TOP
