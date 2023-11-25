@@ -1,11 +1,15 @@
-let sequences = ["GCATGCG", "GATTACA"];
+let sequences = ["DPLE", "DPME"];
 
-sequences = ["GCATGCG", "GATTACA", "AT-AT"];
-sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
+//sequences = ["GCATGCG", "GATTACA", "AT-AT"];
+// sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
 let tops = [];
 let lefts = [];
+
+let match = 1;
+let mismatch = -1;
+let gap = -2;
 
 /**
  * Find longest sequence and put at top so that the longer sequences will be horizontal and not vertical
@@ -97,12 +101,12 @@ for(let left = 0; left < lefts.length; left++) {
 
 // add top descending numbers legend
 for(let x = 0; x <= tops[0].length; x++) {
-    content[tops.length][lefts.length + x] = parseInt(x * -1);
+    content[tops.length][lefts.length + x] = parseInt(x * gap);
 }
 
 // add left descending numbers legend
 for(let y = 0; y <= lefts[0].length; y++) {
-    content[tops.length + y][lefts.length] = parseInt(y * -1);
+    content[tops.length + y][lefts.length] = parseInt(y * gap);
 }
 
 function Score() {
@@ -122,26 +126,42 @@ scoreDiagonalsCount -= scoreTopsCount + scoreLeftsCount;
 xPos = 0;
 yPos = 0;
 
-for(let y = 0; y < lefts[0].length; y++) {
-    let score = new Score();
+for(let y = lefts.length; y < lefts[0].length + lefts.length; y++) {
+    for(let x = tops.length; x < tops[0].length + tops.length; x++) {
+        let score = new Score();
 
-    for(let j = 0; j < scoreDiagonalsCount; j++) {
-        score.diagonals.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-    }
+        for(let j = 0; j < scoreDiagonalsCount; j++) {
+            let diagScore = content[y-1][x-1].diagonals[j];
+            score.diagonals.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+        }
 
-    for(let j = 0; j < scoreTopsCount; j++) {
-        score.tops.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-    }
+        for(let j = 0; j < scoreTopsCount; j++) {
+            score.tops.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+        }
 
-    for(let j = 0; j < scoreLeftsCount; j++) {
-        score.lefts.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-    }
+        for(let j = 0; j < scoreLeftsCount; j++) {
+            score.lefts.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+        }
 
-    for(let x = 0; x < tops[0].length; x++) {
+
         content[tops.length + 1 + y][lefts.length + 1 + x] = score;
     }
-
 }
+
+// for (let y = 2; y < lefts[0].length + 2; y++){
+//     for (let x = 2; x < tops[0].length + 2; x++){
+//         let diagScore = content[y-1][x-1];
+//         if (content[0][x] == content[y][0]) {
+//             diagScore += match;
+//         } else {
+//             diagScore += mismatch;
+//         }
+//         let leftScore = content[y][x-1] + gap;
+//         let upScore = content[y-1][x] + gap;
+//         let curScore = Math.max(diagScore, leftScore, upScore);
+//         content[y][x] = curScore;
+//     }
+// }
 
 // add content as divs
 let ref = document.querySelector("table");
@@ -233,7 +253,10 @@ for(let y = 0; y < content.length; y++) {
 
             data.appendChild(div);
         }
-        // sequence character or descding numbers legend
+
+        //data.innerHTML = content[y][x];
+
+        // sequence character or descending numbers legend
         else if(content[y][x].length > 0 || content[y][x] <= 0) {
             data.innerHTML = content[y][x];
 
