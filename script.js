@@ -103,6 +103,52 @@ for(let i = 0; i <= maxLength; i++) {
     content[lefts.length + i][tops.length] = parseInt(i * -1);
 }
 
+function Score() {
+    this.diagonals = [];
+    this.tops = [];
+    this.lefts = [];
+}
+
+// add placeholder scores
+// total scores based off of n(n-1) / 2
+let scoreTopsCount = (tops.length * (tops.length - 1)) / 2;
+let scoreLeftsCount = (lefts.length * (lefts.length - 1)) / 2;
+
+let scoreDiagonalsCount = ((tops.length + lefts.length) *((tops.length + lefts.length) - 1)) / 2;
+scoreDiagonalsCount -= scoreTopsCount + scoreLeftsCount;
+
+xPos = 0;
+yPos = 0;
+for(let i = 0; i < ((maxLength + 1) * (maxLength + 1)); i++) {
+    let score = new Score();
+
+    for(let j = 0; j < scoreDiagonalsCount; j++) {
+        score.diagonals.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+    }
+
+    for(let j = 0; j < scoreTopsCount; j++) {
+        score.tops.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+    }
+
+    for(let j = 0; j < scoreLeftsCount; j++) {
+        score.lefts.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+    }
+
+    content[lefts.length + 1 + yPos][tops.length + 1 + xPos] = score;
+
+    ++xPos;
+    if(xPos > maxLength) {
+        xPos = 0;
+        ++yPos;
+    }
+
+    if(lefts.length + 1 + yPos > content.length - 1) {
+        break;
+    }
+}
+
 console.log(content);
+
+console.log("done");
 
 // REMEMBER TO ADD SCORES LEGENED AT TOP
