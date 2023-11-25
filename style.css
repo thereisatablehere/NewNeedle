@@ -23,6 +23,10 @@ td {
     display: flex;
     flex-direction: row;
     margin: 0;
-    padding: 0;
+    padding: 0.2px;
     border-bottom: 1px solid orchid;
+}
+.hoverable:hover {
+    cursor: help;
+    font-weight: bold;
 }

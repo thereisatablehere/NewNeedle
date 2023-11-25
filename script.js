@@ -139,8 +139,6 @@ for(let y = 0; y < lefts[0].length; y++) {
     }
 
 }
-console.log("CONTENT");
-console.log(content);
 
 // add content as divs
 let ref = document.querySelector("table");
@@ -164,6 +162,7 @@ for(let y = 0; y < content.length; y++) {
             for(let i = 0; i < content[y][x].diagonals.length; i++) {
                 let hoverable = document.createElement("p");
                 
+                hoverable.className = "hoverable";
                 hoverable.innerHTML = content[y][x].diagonals[i];
                 if(i < content[y][x].diagonals.length - 1) {
                     hoverable.innerHTML += ",";
@@ -187,6 +186,7 @@ for(let y = 0; y < content.length; y++) {
             for(let i = 0; i < content[y][x].lefts.length; i++) {
                 let hoverable = document.createElement("p");
                 
+                hoverable.className = "hoverable";
                 hoverable.innerHTML = content[y][x].lefts[i];
                 if(i < content[y][x].lefts.length - 1) {
                     hoverable.innerHTML += ",";
@@ -210,6 +210,7 @@ for(let y = 0; y < content.length; y++) {
             for(let i = 0; i < content[y][x].tops.length; i++) {
                 let hoverable = document.createElement("p");
                 
+                hoverable.className = "hoverable";
                 hoverable.innerHTML = content[y][x].tops[i];
                 if(i < content[y][x].tops.length - 1) {
                     hoverable.innerHTML += ",";
@@ -244,4 +245,5 @@ for(let y = 0; y < content.length; y++) {
 
 }
 
-// REMEMBER TO ADD SCORES LEGENED AT TOP
+console.log("CONTENT");
+console.log(content);
