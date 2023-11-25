@@ -10,13 +10,12 @@ let lefts = [];
 /**
  * Find longest sequence and put at top so that the longer sequences will be horizontal and not vertical
  */
-let index = 0;
-let length = 0;
-let maxLength = 0;
+let index = -1;
+let maxLength = -1;
 
 for(let sequence of sequences) {
-    if(length > maxLength) {
-        maxLength = length;
+    if(sequence.length > maxLength) {
+        maxLength = sequence.length;
         index = sequences.indexOf(sequence);
 
         length = 0;
@@ -27,7 +26,7 @@ tops.push(sequences[index]);
 sequences.splice(index, 1);
 
 // add remaining sequences
-let topWasLast = false;
+let topWasLast = true;
 
 for(let sequence of sequences) {
     // add gap(s) at end if length less than longest sequene
