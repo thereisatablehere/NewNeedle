@@ -63,7 +63,7 @@ for(let y = 0; y < verticalSize; y++) {
     let row = [];
 
     for(let x = 0; x < horizontalSize; x++) {
-        row.push(1);
+        row.push("E");
     }
 
     content.push(row);
@@ -93,4 +93,16 @@ for(let left = 0; left < lefts.length; left++) {
     ++xPos;
 }
 
+// add numbers descending legends
+for(let i = 0; i <= maxLength; i++) {
+    // have to do parseInt, otherwise 0 shows up as -0
+    
+    // tops
+    content[tops.length][lefts.length + i] = parseInt(i * -1);
+    // lefts
+    content[lefts.length + i][tops.length] = parseInt(i * -1);
+}
+
 console.log(content);
+
+// REMEMBER TO ADD SCORES LEGENED AT TOP
