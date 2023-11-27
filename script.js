@@ -173,7 +173,6 @@ let yAlignmentSequence = "";
 let xAlignmentSequence = "";
 
 while (yIdx >= 2 || xIdx >= 2) {
-    console.log(yIdx + ", " + xIdx + ", " + content[yIdx][xIdx]);
     if (yIdx >= 2 && xIdx >= 2 && (content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - match || content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - mismatch)) {
         yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
         xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
@@ -297,6 +296,17 @@ for(let y = 0; y < content.length; y++) {
     ref.appendChild(row);
 
 }
+
+// add aligned sequences
+ref = document.getElementById("output");
+
+element = document.createElement("p");
+element.innerHTML = yAlignmentSequence;
+ref.appendChild(element);
+
+element = document.createElement("p");
+element.innerHTML = xAlignmentSequence;
+ref.appendChild(element);
 
 console.log("CONTENT");
 console.log(content);
