@@ -287,24 +287,13 @@ for(let y = 0; y < content.length; y++) {
 
             data.appendChild(div);
         }
-
-        data.innerHTML = content[y][x];
-
-        // sequence character or descending numbers legend
-        // else if(content[y][x].length > 0 || content[y][x] <= 0) {
-        //     data.innerHTML = content[y][x];
-
-        //     // add classes for styling
-        //     if(content[y][x].length > 0) {
-        //         data.classList.add("sequence");
-        //     }
-        //     else {
-        //         data.classList.add("descend");
-        //     }
-        // }
-        // else {
-        //     data.innerHTML = ".";
-        // }
+        else {
+            data.innerHTML = content[y][x];
+            
+            if(content[y][x].length > 0) {
+                data.classList.add("sequence");
+            }
+        }
 
         row.appendChild(data);
     }
