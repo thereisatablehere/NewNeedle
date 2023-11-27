@@ -1,4 +1,4 @@
-let sequences = ["DPLE", "DPME"];
+let sequences = ["AGTTC", "ATTGC"];
 
 //sequences = ["GCATGCG", "GATTACA", "AT-AT"];
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
@@ -7,7 +7,7 @@ let sequences = ["DPLE", "DPME"];
 let tops = [];
 let lefts = [];
 
-let match = 1;
+let match = 2;
 let mismatch = -1;
 let gap = -2;
 
@@ -99,33 +99,14 @@ for(let left = 0; left < lefts.length; left++) {
     ++xPos;
 }
 
-// total scores based off of n(n-1) / 2
-let scoreTopsCount = (tops.length * (tops.length - 1)) / 2;
-let scoreLeftsCount = (lefts.length * (lefts.length - 1)) / 2;
-
-let scoreDiagonalsCount = ((tops.length + lefts.length) *((tops.length + lefts.length) - 1)) / 2;
-scoreDiagonalsCount -= scoreTopsCount + scoreLeftsCount;
-
 // add top descending numbers legend
 for(let x = 0; x <= tops[0].length; x++) {
-    let score = new Score();
-
-    for(let i = 0; i < scoreDiagonalsCount; i++) {
-        score.diagonals.push(parseInt(x * gap));
-    }
-
-    content[tops.length][lefts.length + x] = score;
+    content[tops.length][lefts.length + x] = parseInt(x * gap);
 }
 
 // add left descending numbers legend
 for(let y = 0; y <= lefts[0].length; y++) {
-    let score = new Score();
-
-    for(let i = 0; i < scoreDiagonalsCount; i++) {
-        score.diagonals.push(parseInt(y * gap));
-    }
-
-    content[tops.length + y][lefts.length] = score;
+    content[tops.length + y][lefts.length] = parseInt(y * gap);
 }
 
 function Score() {
@@ -135,46 +116,85 @@ function Score() {
 }
 
 // add placeholder scores
+// total scores based off of n(n-1) / 2
+let scoreTopsCount = (tops.length * (tops.length - 1)) / 2;
+let scoreLeftsCount = (lefts.length * (lefts.length - 1)) / 2;
+
+let scoreDiagonalsCount = ((tops.length + lefts.length) *((tops.length + lefts.length) - 1)) / 2;
+scoreDiagonalsCount -= scoreTopsCount + scoreLeftsCount;
 
 xPos = 0;
 yPos = 0;
 
-for(let y = lefts.length; y < lefts[0].length + lefts.length; y++) {
-    for(let x = tops.length; x < tops[0].length + tops.length; x++) {
-        let score = new Score();
+// for(let y = lefts.length; y < lefts[0].length + lefts.length; y++) {
+//     for(let x = tops.length; x < tops[0].length + tops.length; x++) {
+//         let score = new Score();
 
-        // for(let j = 0; j < scoreDiagonalsCount; j++) {
-        //     let diagScore = content[y-1][x-1].diagonals[j];
-        //     score.diagonals.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-        // }
+//         for(let j = 0; j < scoreDiagonalsCount; j++) {
+//             let diagScore = content[y-1][x-1].diagonals[j];
+//             score.diagonals.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+//         }
 
-        // for(let j = 0; j < scoreTopsCount; j++) {
-        //     score.tops.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-        // }
+//         for(let j = 0; j < scoreTopsCount; j++) {
+//             score.tops.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+//         }
 
-        // for(let j = 0; j < scoreLeftsCount; j++) {
-        //     score.lefts.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-        // }
+//         for(let j = 0; j < scoreLeftsCount; j++) {
+//             score.lefts.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
+//         }
 
 
-        // content[tops.length + 1 + y][lefts.length + 1 + x] = score;
+//         content[tops.length + 1 + y][lefts.length + 1 + x] = score;
+//     }
+// }
+
+//Populate grid
+for (let y = 2; y < lefts[0].length + 2; y++){
+    for (let x = 2; x < tops[0].length + 2; x++){
+        let diagScore = content[y-1][x-1];
+        if (content[0][x] == content[y][0]) {
+            diagScore += match;
+        } else {
+            diagScore += mismatch;
+        }
+        let leftScore = content[y][x-1] + gap;
+        let upScore = content[y-1][x] + gap;
+        let curScore = Math.max(diagScore, leftScore, upScore);
+        content[y][x] = curScore;
     }
 }
 
-// for (let y = 2; y < lefts[0].length + 2; y++){
-//     for (let x = 2; x < tops[0].length + 2; x++){
-//         let diagScore = content[y-1][x-1];
-//         if (content[0][x] == content[y][0]) {
-//             diagScore += match;
-//         } else {
-//             diagScore += mismatch;
-//         }
-//         let leftScore = content[y][x-1] + gap;
-//         let upScore = content[y-1][x] + gap;
-//         let curScore = Math.max(diagScore, leftScore, upScore);
-//         content[y][x] = curScore;
+//Get alignment
+// let yIdx = lefts[0].length + 1;
+// let xIdx = tops[0].length + 1;
+
+// let aAlignment = "";
+// let bAlignment = "";
+
+// while (yIdx > 2 || xIdx > 2) {
+
+//     console.log(yIdx + ", " + xIdx + ", " + content[yIdx][xIdx]);
+
+//     if (yIdx > 2 && xIdx > 2 && (content[yIdx][xIdx] == content[yIdx-1][xIdx - 1] - match || content[yIdx][xIdx] == content[yIdx-1][xIdx - 1] - mismatch)) {
+//         aAlignment = content[yIdx][0] + aAlignment;
+//         bAlignment = content[0][xIdx] + bAlignment;
+//         yIdx--;
+//         xIdx--;
+//     }
+//     else if (yIdx > 2 && xIdx > 1 && content[yIdx][xIdx] == content[yIdx - 1][xIdx] - gap) {
+//         aAlignment = content[yIdx][0] + aAlignment;
+//         bAlignment = "-" + bAlignment;
+//         yIdx--;
+//     }
+//     else if (yIdx > 1) {
+//         aAlignment =  "-" + aAlignment;
+//         bAlignment = content[0][xIdx] + bAlignment;
+//         xIdx--;
 //     }
 // }
+
+// console.log(aAlignment);
+// console.log(bAlignment);
 
 // add content as divs
 let ref = document.querySelector("table");
@@ -189,99 +209,101 @@ for(let y = 0; y < content.length; y++) {
 
         // contains scores
         if(typeof content[y][x] == "object") {
-            // descending numbers
-            if(y == tops.length || x == lefts.length) {
-                data.innerHTML = content[y][x].diagonals[0];
+            let div = document.createElement("div");
+            div.className = "scoreCell";
+
+            // diagonals scores
+            let element = document.createElement("p");
+            element.innerHTML = "";
+            for(let i = 0; i < content[y][x].diagonals.length; i++) {
+                let hoverable = document.createElement("p");
+                
+                hoverable.className = "hoverable";
+                hoverable.innerHTML = content[y][x].diagonals[i];
+                if(i < content[y][x].diagonals.length - 1) {
+                    hoverable.innerHTML += ",";
+                }
+
+                hoverable.onmouseover = function() {
+                    document.getElementById("inspectingDiv").innerHTML = 
+                    "<div>Diagional</div>" + 
+                    "(L" + (x + i) + 
+                    ", T" + (y + i) + ")";
+                }
+
+                element.appendChild(hoverable);
+                
             }
-            // actual score
-            else {
-                let div = document.createElement("div");
-                div.className = "scoreCell";
+            div.appendChild(element);
 
-                // diagonals scores
-                let element = document.createElement("p");
-                element.innerHTML = "";
-                for(let i = 0; i < content[y][x].diagonals.length; i++) {
-                    let hoverable = document.createElement("p");
-                    
-                    hoverable.className = "hoverable";
-                    hoverable.innerHTML = content[y][x].diagonals[i];
-                    if(i < content[y][x].diagonals.length - 1) {
-                        hoverable.innerHTML += ",";
-                    }
-
-                    hoverable.onmouseover = function() {
-                        document.getElementById("inspectingDiv").innerHTML = 
-                        "<div>Diagional</div>" + 
-                        "(L" + (x + i) + 
-                        ", T" + (y + i) + ")";
-                    }
-
-                    element.appendChild(hoverable);
-                    
+            // lefts scores
+            element = document.createElement("p");
+            element.innerHTML = "";
+            for(let i = 0; i < content[y][x].lefts.length; i++) {
+                let hoverable = document.createElement("p");
+                
+                hoverable.className = "hoverable";
+                hoverable.innerHTML = content[y][x].lefts[i];
+                if(i < content[y][x].lefts.length - 1) {
+                    hoverable.innerHTML += ",";
                 }
-                div.appendChild(element);
 
-                // lefts scores
-                element = document.createElement("p");
-                element.innerHTML = "";
-                for(let i = 0; i < content[y][x].lefts.length; i++) {
-                    let hoverable = document.createElement("p");
-                    
-                    hoverable.className = "hoverable";
-                    hoverable.innerHTML = content[y][x].lefts[i];
-                    if(i < content[y][x].lefts.length - 1) {
-                        hoverable.innerHTML += ",";
-                    }
-
-                    hoverable.onmouseover = function() {
-                        document.getElementById("inspectingDiv").innerHTML = 
-                        "<div>Left</div>" + 
-                        "(L" + (x + i) + 
-                        ", L" + (y + i) + ")";
-                    }
-
-                    element.appendChild(hoverable);
-                    
+                hoverable.onmouseover = function() {
+                    document.getElementById("inspectingDiv").innerHTML = 
+                    "<div>Left</div>" + 
+                    "(L" + (x + i) + 
+                    ", L" + (y + i) + ")";
                 }
-                div.appendChild(element);
 
-                // tops scores
-                element = document.createElement("p");
-                element.innerHTML = "";
-                for(let i = 0; i < content[y][x].tops.length; i++) {
-                    let hoverable = document.createElement("p");
-                    
-                    hoverable.className = "hoverable";
-                    hoverable.innerHTML = content[y][x].tops[i];
-                    if(i < content[y][x].tops.length - 1) {
-                        hoverable.innerHTML += ",";
-                    }
-
-                    hoverable.onmouseover = function() {
-                        document.getElementById("inspectingDiv").innerHTML = 
-                        "<div>Top</div>" + 
-                        "(T" + (x + i) + 
-                        ", T" + (y + i) + ")";
-                    }
-
-                    element.appendChild(hoverable);
-                    
-                }
-                div.appendChild(element);
-
-                data.appendChild(div);
+                element.appendChild(hoverable);
+                
             }
+            div.appendChild(element);
+
+            // tops scores
+            element = document.createElement("p");
+            element.innerHTML = "";
+            for(let i = 0; i < content[y][x].tops.length; i++) {
+                let hoverable = document.createElement("p");
+                
+                hoverable.className = "hoverable";
+                hoverable.innerHTML = content[y][x].tops[i];
+                if(i < content[y][x].tops.length - 1) {
+                    hoverable.innerHTML += ",";
+                }
+
+                hoverable.onmouseover = function() {
+                    document.getElementById("inspectingDiv").innerHTML = 
+                    "<div>Top</div>" + 
+                    "(T" + (x + i) + 
+                    ", T" + (y + i) + ")";
+                }
+
+                element.appendChild(hoverable);
+                
+            }
+            div.appendChild(element);
+
+            data.appendChild(div);
         }
 
-        //data.innerHTML = content[y][x];
+        data.innerHTML = content[y][x];
 
-        // sequence character
-        else if(content[y][x].length > 0) {
-            data.innerHTML = content[y][x];
+        // sequence character or descending numbers legend
+        // else if(content[y][x].length > 0 || content[y][x] <= 0) {
+        //     data.innerHTML = content[y][x];
 
-            data.classList.add("sequence");
-        }
+        //     // add classes for styling
+        //     if(content[y][x].length > 0) {
+        //         data.classList.add("sequence");
+        //     }
+        //     else {
+        //         data.classList.add("descend");
+        //     }
+        // }
+        // else {
+        //     data.innerHTML = ".";
+        // }
 
         row.appendChild(data);
     }
