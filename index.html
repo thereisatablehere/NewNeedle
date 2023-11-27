@@ -6,15 +6,26 @@
     <title>New Needleman</title>
 </head>
 <body>
-    <div id="inspecting">
+    <div id="inputs">
+        <input type="text" name="">
+        <input type="text" name="">
+    </div>
+    <!-- input sequences controls -->
+    <div>
+        <button onclick="removeSequence()">-</button>
+        <button onclick="addSequence()">+</button>
+    </div>
+    <!-- <div id="inspecting">
         <p>Inspecting:</p>
         <div id="inspectingDiv">Nothing<br>Yet</div>
-    </div>
+    </div> -->
     <table></table>
+
     <div id="output">
         <p>Aligned Sequences</p>
     </div>
 
     <script src="script.js"></script>
+    <script src="sequenceInputs.js"></script>
 </body>
 </html>
