@@ -1,4 +1,4 @@
-let sequences = ["AGTTC", "ATTGC"];
+let sequences = ["GCATGCG", "GATTACA"];
 
 
 //sequences = ["GCATGCG", "GATTACA", "AT-AT"];
@@ -8,9 +8,9 @@ let sequences = ["AGTTC", "ATTGC"];
 let tops = [];
 let lefts = [];
 
-let match = 2;
+let match = 1;
 let mismatch = -1;
-let gap = -2;
+let gap = -1;
 
 /**
  * Find longest sequence and put at top so that the longer sequences will be horizontal and not vertical
@@ -165,37 +165,33 @@ for (let y = 2; y < lefts[0].length + 2; y++){
     }
 }
 
-//Get alignment
-// let yIdx = lefts[0].length + 1;
-// let xIdx = tops[0].length + 1;
+//Get alignment using backtracking
+let yIdx = lefts[0].length + 1;
+let xIdx = tops[0].length + 1;
 
-// let aAlignment = "";
-// let bAlignment = "";
+let yAlignmentSequence = "";
+let xAlignmentSequence = "";
 
-// while (yIdx > 2 || xIdx > 2) {
+while (yIdx >= 2 || xIdx >= 2) {
+    console.log(yIdx + ", " + xIdx + ", " + content[yIdx][xIdx]);
+    if (yIdx >= 2 && xIdx >= 2 && (content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - match || content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - mismatch)) {
+        yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
+        xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
+        yIdx--;
+        xIdx--;
+    } else if (yIdx >= 2 && xIdx > 1 && content[yIdx - 1][xIdx] == content[yIdx][xIdx] - gap) {
+        yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
+        xAlignmentSequence = "-" + xAlignmentSequence;
+        yIdx--;
+    } else {
+        yAlignmentSequence = "-" + yAlignmentSequence;
+        xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
+        xIdx--;
+    }
+}
 
-//     console.log(yIdx + ", " + xIdx + ", " + content[yIdx][xIdx]);
-
-//     if (yIdx > 2 && xIdx > 2 && (content[yIdx][xIdx] == content[yIdx-1][xIdx - 1] - match || content[yIdx][xIdx] == content[yIdx-1][xIdx - 1] - mismatch)) {
-//         aAlignment = content[yIdx][0] + aAlignment;
-//         bAlignment = content[0][xIdx] + bAlignment;
-//         yIdx--;
-//         xIdx--;
-//     }
-//     else if (yIdx > 2 && xIdx > 1 && content[yIdx][xIdx] == content[yIdx - 1][xIdx] - gap) {
-//         aAlignment = content[yIdx][0] + aAlignment;
-//         bAlignment = "-" + bAlignment;
-//         yIdx--;
-//     }
-//     else if (yIdx > 1) {
-//         aAlignment =  "-" + aAlignment;
-//         bAlignment = content[0][xIdx] + bAlignment;
-//         xIdx--;
-//     }
-// }
-
-// console.log(aAlignment);
-// console.log(bAlignment);
+console.log(yAlignmentSequence);
+console.log(xAlignmentSequence);
 
 // add content as divs
 let ref = document.querySelector("table");
