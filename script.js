@@ -1,5 +1,6 @@
 let sequences = ["AGTTC", "ATTGC"];
 
+
 //sequences = ["GCATGCG", "GATTACA", "AT-AT"];
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
