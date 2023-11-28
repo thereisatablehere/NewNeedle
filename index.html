@@ -6,14 +6,19 @@
     <title>New Needleman</title>
 </head>
 <body>
+    <p><strong>Enter Sequences:</strong></p>
     <div id="inputs">
-        <input type="text" name="">
-        <input type="text" name="">
+        <input type="text" oninput="validateInputSequence(this)">
+        <input type="text" oninput="validateInputSequence(this)">
     </div>
     <!-- input sequences controls -->
-    <div>
-        <button onclick="removeSequence()">-</button>
-        <button onclick="addSequence()">+</button>
+    <div id="inputsControls">
+        <div>
+            <button onclick="removeSequence()">-</button>
+            <button onclick="addSequence()">+</button>
+        </div>
+
+        <button id="alignButton" onclick="addInputsToArray()">Align Sequences</button>
     </div>
     <!-- <div id="inspecting">
         <p>Inspecting:</p>

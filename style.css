@@ -6,13 +6,66 @@
 body {
     background-color: #1B2631;
     color: white;
+}
+body, input {
     font-family: "Inter";
 }
-#inputs {
+#inputs, #inputsControls {
     display: flex;
-    flex-direction: column;
     width: 200px;
+}
+#inputs input, #inputsControls div button, #alignButton {
+    outline: none;
+    border: none;
+    background-color: #2D4052;
+    color: white;
+}
+#inputs, #inputsControls {
+    flex-direction: column;
+}
+#inputs input {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 7px;
+    border-radius: 2px;
+    letter-spacing: 2px;
+}
+#inputsControls {
+    justify-content: center;
+}
+#inputsControls div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#inputsControls div button {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 7px;
+    padding-right: 7px;
     font-size: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+#inputsControls button:hover {
+    cursor: pointer;
+}
+#inputsControls div button:hover {
+    background-color: #3F5A73;
+}
+#alignButton {
+    background-color: #2D2D52;
+    font-size: var(--mainFontSize);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: "Inter";
+    padding: 7px;
+    border-radius: 4px;
+}
+#alignButton:hover {
+    background-color: #3F3F73;
 }
 #inspecting {
     display: flex;
@@ -50,10 +103,12 @@ td {
 .descend {
     color: #FFE082;
 }
+/* font color set in js when showing*/
 #output {
     display: flex;
     flex-direction: column;
     margin-top: 25px;
+    display: none;
 }
 #output p {
     margin: 0;
