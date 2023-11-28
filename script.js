@@ -1,8 +1,14 @@
+const DEBUG = true;
+
 // declared in global scope because both align and addInputsToArray function use it
 let sequences = [];
 
+if(DEBUG) {
+    sequences = ["GCATGCG", "GATTACA"];
+    align();
+}
 // for debugging
-//sequences = ["GCATGCG", "GATTACA", "AT-AT"];
+// sequences = ["GCATGCG", "GATTACA", "AT-AT"];
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
