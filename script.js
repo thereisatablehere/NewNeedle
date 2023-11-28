@@ -285,8 +285,13 @@ for(let y = 0; y < content.length; y++) {
         else {
             data.innerHTML = content[y][x];
             
+            // sequence character
             if(content[y][x].length > 0) {
                 data.classList.add("sequence");
+            }
+            // descending numbers
+            else if(x == lefts.length || y == tops.length) {
+                data.classList.add("descend");
             }
         }
 
