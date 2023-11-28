@@ -13,13 +13,11 @@ function align() {
     let match = 1;
     let mismatch = -1;
     let gap = -1;
-
-    /**
-     * Find longest sequence and put at top so that the longer sequences will be horizontal and not vertical
-     */
+    
     let index = -1;
     let maxLength = -1;
 
+    // find longest sequence
     for(let sequence of sequences) {
         if(sequence.length > maxLength) {
             maxLength = sequence.length;
@@ -35,8 +33,8 @@ function align() {
     // add remaining sequences
     let topWasLast = true;
 
+    // add gap(s) at end if length less than longest sequene
     for(let sequence of sequences) {
-        // add gap(s) at end if length less than longest sequene
         let formattedSequence = sequence;
 
         if(sequence.length < maxLength) {
