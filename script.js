@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 
 // declared in global scope because both align and addInputsToArray function use it
 let sequences = [];
@@ -12,13 +12,91 @@ if(DEBUG) {
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
+let yAlignmentSequence = "";
+let xAlignmentSequence = "";
+
+// set up content grid
+let content = [];
+
+function backtracking(tops, lefts, match, mismatch, gap) {
+    //Populate grid
+    for (let y = 2; y < lefts[0].length + 2; y++){
+        for (let x = 2; x < tops[0].length + 2; x++){
+            let diagScore = content[y-1][x-1];
+            if (content[0][x] == content[y][0]) {
+                diagScore += match;
+            } else {
+                diagScore += mismatch;
+            }
+            let leftScore = content[y][x-1] + gap;
+            let upScore = content[y-1][x] + gap;
+            let curScore = Math.max(diagScore, leftScore, upScore);
+            content[y][x] = curScore;
+        }
+    }
+
+    //Get alignment using backtracking
+    let yIdx = lefts[0].length + 1;
+    let xIdx = tops[0].length + 1;
+
+    while (yIdx >= 2 || xIdx >= 2) {
+        if (yIdx >= 2 && xIdx >= 2 && (content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - match || content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - mismatch)) {
+            yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
+            xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
+            yIdx--;
+            xIdx--;
+        } else if (yIdx >= 2 && xIdx > 1 && content[yIdx - 1][xIdx] == content[yIdx][xIdx] - gap) {
+            yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
+            xAlignmentSequence = "-" + xAlignmentSequence;
+            yIdx--;
+        } else {
+            yAlignmentSequence = "-" + yAlignmentSequence;
+            xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
+            xIdx--;
+        }
+    }
+}
+
+function pointerMatrix(tops, lefts, match, mismatch, gap) {
+    let pRow = Array(tops[0].length).fill(0);
+    pRow[0] = 3;
+    let pointer = Array(lefts[0].length).fill(pRow);
+    pointer[0] = Array(tops[0].length).fill(4);
+
+    console.log(pointer);
+    
+    //Populate grid
+    for (let y = 2; y < lefts[0].length + 2; y++){
+        for (let x = 2; x < tops[0].length + 2; x++){
+            let diagScore = content[y-1][x-1];
+            if (content[0][x] == content[y][0]) {
+                diagScore += match;
+            } else {
+                diagScore += mismatch;
+            }
+            let leftScore = content[y][x-1] + gap;
+            let upScore = content[y-1][x] + gap;
+            let curScore = Math.max(diagScore, leftScore, upScore);
+            content[y][x] = curScore;
+
+            //Fill pointer matrix
+            if (curScore == diagScore) {
+                pointer[y-1][x-1] += 2;
+            }
+            
+        }
+    }
+}
+
 function align() {
+    content = [];
+
     let tops = [];
     let lefts = [];
 
-    let match = 1;
+    let match = 2;
     let mismatch = -1;
-    let gap = -1;
+    let gap = -2;
     
     let index = -1;
     let maxLength = -1;
@@ -66,8 +144,6 @@ function align() {
     console.log("LEFTS");
     console.log(lefts);
 
-    // set up content grid
-    let content = [];
     // plus 1 on each size for margin that goes 0, -1, -2, etc
     let horizontalSize = maxLength + lefts.length + 1;
     let verticalSize = maxLength + tops.length + 1;
@@ -155,48 +231,15 @@ function align() {
     //     }
     // }
 
-    //Populate grid
-    for (let y = 2; y < lefts[0].length + 2; y++){
-        for (let x = 2; x < tops[0].length + 2; x++){
-            let diagScore = content[y-1][x-1];
-            if (content[0][x] == content[y][0]) {
-                diagScore += match;
-            } else {
-                diagScore += mismatch;
-            }
-            let leftScore = content[y][x-1] + gap;
-            let upScore = content[y-1][x] + gap;
-            let curScore = Math.max(diagScore, leftScore, upScore);
-            content[y][x] = curScore;
-        }
-    }
+    
 
-    //Get alignment using backtracking
-    let yIdx = lefts[0].length + 1;
-    let xIdx = tops[0].length + 1;
+    backtracking(tops, lefts, match, mismatch, gap);
 
-    let yAlignmentSequence = "";
-    let xAlignmentSequence = "";
+    //pointerMatrix(tops, lefts, match, mismatch, gap);
+    
 
-    while (yIdx >= 2 || xIdx >= 2) {
-        if (yIdx >= 2 && xIdx >= 2 && (content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - match || content[yIdx - 1][xIdx - 1] == content[yIdx][xIdx] - mismatch)) {
-            yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
-            xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
-            yIdx--;
-            xIdx--;
-        } else if (yIdx >= 2 && xIdx > 1 && content[yIdx - 1][xIdx] == content[yIdx][xIdx] - gap) {
-            yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
-            xAlignmentSequence = "-" + xAlignmentSequence;
-            yIdx--;
-        } else {
-            yAlignmentSequence = "-" + yAlignmentSequence;
-            xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
-            xIdx--;
-        }
-    }
-
-    console.log(yAlignmentSequence);
-    console.log(xAlignmentSequence);
+    // console.log(yAlignmentSequence);
+    // console.log(xAlignmentSequence);
 
     // add content as divs
     let ref = document.querySelector("table");
