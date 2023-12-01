@@ -18,6 +18,10 @@ let xAlignmentSequence = "";
 // set up content grid
 let content = [];
 
+// set up pointer matrix
+let pointer = [];
+let pRow = [];
+
 function backtracking(tops, lefts, match, mismatch, gap) {
     //Populate grid
     for (let y = 2; y < lefts[0].length + 2; y++){
@@ -58,38 +62,54 @@ function backtracking(tops, lefts, match, mismatch, gap) {
 }
 
 function pointerMatrix(tops, lefts, match, mismatch, gap) {
-    let pRow = Array(tops[0].length).fill(0);
+    pRow = Array(tops[0].length + 1).fill(0);
     pRow[0] = 3;
-    let pointer = Array(lefts[0].length).fill(pRow);
-    pointer[0] = Array(tops[0].length).fill(4);
+    pointer = Array(lefts[0].length + 1).fill(pRow);
+    pointer[0] = Array(tops[0].length + 1).fill(4);
 
     console.log(pointer);
     
     //Populate grid
-    for (let y = 2; y < lefts[0].length + 2; y++){
-        for (let x = 2; x < tops[0].length + 2; x++){
-            let diagScore = content[y-1][x-1];
-            if (content[0][x] == content[y][0]) {
+    for (let y = 1; y < lefts[0].length + 1; y++){
+        for (let x = 1; x < tops[0].length + 1; x++){
+            let diagScore = content[y][x];
+            if (content[0][x + 1] == content[y + 1][0]) {
                 diagScore += match;
             } else {
                 diagScore += mismatch;
             }
-            let leftScore = content[y][x-1] + gap;
-            let upScore = content[y-1][x] + gap;
+            let leftScore = content[y+1][x] + gap;
+            let upScore = content[y][x+1] + gap;
             let curScore = Math.max(diagScore, leftScore, upScore);
-            content[y][x] = curScore;
-
-            //Fill pointer matrix
-            if (curScore == diagScore) {
-                pointer[y-1][x-1] += 2;
-            }
+            content[y+1][x+1] = curScore;
             
+            console.log(y + ", " + x + ", " + pointer[y][x]);
+            // //Fill pointer matrix
+            // if (curScore == diagScore) {
+            //     pointer[y][x] += 2;
+            // }
+            // //Use higher weights for adding gaps
+            // if (curScore == upScore) {
+            //     pointer[y][x] += 3;
+            // }
+            // if (curScore == leftScore) {
+            //     pointer[y][x] += 4;
+            // }
+            console.log(y + ", " + x + ", " + pointer[y][x]);
         }
     }
+
+    console.log(pointer);
+
+    //Get alignment through pointer matrix
+    // let yIdx = tops[0].length;
+    // let xIdx = lefts[0].length;
 }
 
 function align() {
     content = [];
+    pointer = [];
+    pRow = [];
 
     let tops = [];
     let lefts = [];
@@ -209,33 +229,9 @@ function align() {
     xPos = 0;
     yPos = 0;
 
-    // for(let y = lefts.length; y < lefts[0].length + lefts.length; y++) {
-    //     for(let x = tops.length; x < tops[0].length + tops.length; x++) {
-    //         let score = new Score();
+    //backtracking(tops, lefts, match, mismatch, gap);
 
-    //         for(let j = 0; j < scoreDiagonalsCount; j++) {
-    //             let diagScore = content[y-1][x-1].diagonals[j];
-    //             score.diagonals.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-    //         }
-
-    //         for(let j = 0; j < scoreTopsCount; j++) {
-    //             score.tops.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-    //         }
-
-    //         for(let j = 0; j < scoreLeftsCount; j++) {
-    //             score.lefts.push(Math.floor(Math.random() * (9 - 1 + 1)) + 1);
-    //         }
-
-
-    //         content[tops.length + 1 + y][lefts.length + 1 + x] = score;
-    //     }
-    // }
-
-    
-
-    backtracking(tops, lefts, match, mismatch, gap);
-
-    //pointerMatrix(tops, lefts, match, mismatch, gap);
+    pointerMatrix(tops, lefts, match, mismatch, gap);
     
 
     // console.log(yAlignmentSequence);
