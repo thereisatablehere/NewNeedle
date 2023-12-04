@@ -1,12 +1,9 @@
 const DEBUG = false;
 
+let pathColor = "#EC407A";
+
 // declared in global scope because both align and addInputsToArray function use it
 let sequences = [];
-
-if(DEBUG) {
-    sequences = ["GCATGCG", "GATTACA"];
-    align();
-}
 // for debugging
 // sequences = ["GCATGCG", "GATTACA", "AT-AT"];
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
@@ -20,6 +17,8 @@ let gap = -2;
 
 let yAlignmentSequence = "";
 let xAlignmentSequence = "";
+let arrowCells = [];
+let arrowDirs = [];
 
 // set up content grid
 let content = [];
@@ -55,14 +54,37 @@ function backtracking(tops, lefts, match, mismatch, gap) {
             xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
             yIdx--;
             xIdx--;
+
+            arrowDirs.push("diagonal");
         } else if (yIdx >= 2 && xIdx > 1 && content[yIdx - 1][xIdx] == content[yIdx][xIdx] - gap) {
             yAlignmentSequence = content[yIdx][0] + yAlignmentSequence;
             xAlignmentSequence = "-" + xAlignmentSequence;
             yIdx--;
+
+            arrowDirs.push("top");
         } else {
             yAlignmentSequence = "-" + yAlignmentSequence;
             xAlignmentSequence = content[0][xIdx] + xAlignmentSequence;
             xIdx--;
+
+            arrowDirs.push("left");
+        }
+
+        /**
+         * found cell that has an arrow going into, 
+         * so need to backtrack to cell arrow is from 
+         * to place arrow at
+         */
+        switch(arrowDirs[arrowDirs.length - 1]) {
+            case "diagonal":
+                arrowCells.push([xIdx + 1, yIdx + 1]);
+                break;
+            case "left":
+                arrowCells.push([xIdx + 1, yIdx]);
+                break;
+            case "top":
+                arrowCells.push([xIdx, yIdx + 1]);
+                break;
         }
     }
 }
@@ -278,6 +300,7 @@ function align() {
     // add content as divs
     let ref = document.querySelector("table");
 
+    console.log(arrowCells);
     for(let y = 0; y < content.length; y++) {
         let row = document.createElement("tr");
         row.className = "row";
@@ -368,6 +391,57 @@ function align() {
             else {
                 data.innerHTML = content[y][x];
                 
+                let compare = [x, y];
+                // let leftOrTopEdge = (x == 2 || y == 2);
+
+                for(let check = 0; check < arrowCells.length; check++) {
+                    if((compare[0] == arrowCells[check][0]) && (compare[1] == arrowCells[check][1])/* && !(leftOrTopEdge)*/) {
+                        data.style.color = pathColor;
+                        let temp = data.innerHTML;
+
+                        let arrowElem = document.createElement("p");
+                        arrowElem.style.position = "absolute";
+                        arrowElem.style.color = pathColor;
+
+                        // arrowElem.innerHTML = "+";
+                        switch(arrowDirs[check]) {
+                            case "diagonal":
+                                arrowElem.innerHTML = "&#x21d6;";
+
+                                arrowElem.style.marginTop = "-10px";
+                                arrowElem.style.marginLeft = "-10px";
+                                break;
+                            case "left":
+                                arrowElem.innerHTML = "&#x21d0;";
+
+                                // margin does not work
+                                arrowElem.style.paddingTop = "18px";
+                                arrowElem.style.marginLeft = "-14px";
+                                break;
+                            case "top":
+                                arrowElem.innerHTML = "&#x21d1;";
+
+                                // margin does not work
+                                arrowElem.style.paddingTop = "5px"
+                                arrowElem.style.marginLeft = "4px";
+                                break;
+                        }
+
+                        // special case for bottom-right to move to same position as every other arrow (for some reason starts farther below)
+                        if(check == arrowCells.length - 1) {
+                            arrowElem.style.marginTop = "-20px";
+                        }
+
+                        data.innerHTML = "";
+                        data.appendChild(arrowElem);
+                        data.innerHTML += temp;
+
+                        arrowCells.splice(check, 1);
+                        arrowDirs.splice(check, 1);
+                        break;
+                    }
+                }
+                
                 // sequence character
                 if(content[y][x].length > 0) {
                     data.classList.add("sequence");
@@ -418,7 +492,9 @@ function validateScoreInputs() {
 }
 
 function addInputsToArray(backtracking) {
-    validateScoreInputs();
+    if(!(DEBUG)) {
+        validateScoreInputs();
+    }
     // reset stuff
     document.querySelector("table").innerHTML = "";
     document.getElementById("output").innerHTML = "<p style='color: #4FC3F7;'><strong>Aligned Sequences</strong></p>";
@@ -428,16 +504,29 @@ function addInputsToArray(backtracking) {
     let inputs = document.getElementById("inputsSequences").children;
 
     // get scores from inputs
-    let childs = document.getElementById("inputsScores").children;
-    match = parseInt(childs[0].value);
-    mismatch = parseInt(childs[1].value);
-    gap = parseInt(childs[2].value);
-    console.log(match, mismatch, gap);
+    if(!(DEBUG)) {
+        let childs = document.getElementById("inputsScores").children;
+        match = parseInt(childs[0].value);
+        mismatch = parseInt(childs[1].value);
+        gap = parseInt(childs[2].value);
+        console.log(match, mismatch, gap);
+    }
 
     for(let i = 0; i < inputs.length; i++) {
         sequences.push(inputs[i].value);
     }
 
     backtrack = backtracking;
+    align();
+}
+
+if(DEBUG) {
+    sequences = ["GCATGCG", "GATTACA"];
+    // sequences = ["ACTGATTCA", "ACGCATCA"];
+    // sequences = ["TCCTA", "TCATA"];
+    match = 2;
+    mismatch = -3;
+    gap = -2;
+    backtrack = true;
     align();
 }

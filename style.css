@@ -100,7 +100,7 @@ body, input {
     flex-direction: column;
 }
 td {
-    padding: 4px;
+    padding: 5.5px;
     font-size: var(--mainFontSize);
     text-align: center;
 }
