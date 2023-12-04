@@ -148,19 +148,44 @@ function pointerMatrix(tops, lefts, match, mismatch, gap) {
             xAlignmentSequence = content[0][xIdx + 1] + xAlignmentSequence;
             yIdx--;
             xIdx--;
+
+            arrowDirs.push("diagonal");
         }
         else if (val == 3 || val == 7) {
             yAlignmentSequence = content[yIdx + 1][0] + yAlignmentSequence;
             xAlignmentSequence = "-" + xAlignmentSequence;
             yIdx--;
+
+            arrowDirs.push("top");
         }
         else if (val == 4) {
             yAlignmentSequence = "-" + yAlignmentSequence;
             xAlignmentSequence = content[0][xIdx + 1] + xAlignmentSequence;
-            xIdx--; 
+            xIdx--;
+
+            arrowDirs.push("left");
         }
         console.log(yIdx + ", " + xIdx);
         count++;
+
+        /**
+         * Found cell that has an arrow going into, 
+         * so need to backtrack to cell arrow is from 
+         * to place arrow at.
+         * Have to offset differently than backtracking, because 
+         * cells are different for some reason.
+         */
+        switch(arrowDirs[arrowDirs.length - 1]) {
+            case "diagonal":
+                arrowCells.push([xIdx + 2, yIdx + 2]);
+                break;
+            case "left":
+                arrowCells.push([xIdx + 2, yIdx + 1]);
+                break;
+            case "top":
+                arrowCells.push([xIdx + 1, yIdx + 2]);
+                break;
+        }
     }
     console.log(count);
 }
