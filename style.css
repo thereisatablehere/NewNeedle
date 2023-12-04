@@ -41,6 +41,9 @@ body, input {
 #inputsControls {
     justify-content: center;
 }
+#inputsControls div:first-child {
+    width: 100%;
+}
 #inputsControls div {
     display: flex;
     flex-direction: row;
