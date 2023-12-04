@@ -24,10 +24,13 @@ body, input {
     display: flex;
     width: 200px;
 }
-button {
+#addRemoveDiv button {
+    transition: background-color 0.25s;
+}
+.alignButton {
     transition: background-color 0.25s, transform 0.15s;
 }
-button:active{
+.alignButton:active{
     transform: scale(1.1);
 }
 .inputs input, #inputsControls div:first-child button {
