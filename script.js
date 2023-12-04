@@ -123,6 +123,9 @@ function align() {
     let index = -1;
     let maxLength = -1;
 
+    yAlignmentSequence = "";
+    xAlignmentSequence = "";
+
     // find longest sequence
     for(let sequence of sequences) {
         if(sequence.length > maxLength) {
