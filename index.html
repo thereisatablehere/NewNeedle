@@ -23,7 +23,11 @@
 
                 <br>
 
-                <button id="alignButton" onclick="addInputsToArray()">Align Sequences</button>
+                <p class="pNoSpace"><strong>Align via</strong></p>
+                <div id="alignContainer">
+                    <button class="alignButton" onclick="addInputsToArray(true)">Backtrack</button>
+                    <button class="alignButton" onclick="addInputsToArray(false)">Pointer Matrix</button>
+                </div>
             </div>
         </div>
         <!-- right side, scores -->

@@ -10,6 +10,9 @@ body {
 body, input {
     font-family: "Inter";
 }
+.pNoSpace {
+    margin: 0;
+}
 #inputsContainer {
     display: flex;
     flex-direction: row;
@@ -21,7 +24,7 @@ body, input {
     display: flex;
     width: 200px;
 }
-.inputs input, #inputsControls div button, #alignButton {
+.inputs input, #inputsControls div:first-child button {
     outline: none;
     border: none;
     background-color: #2D4052;
@@ -65,16 +68,20 @@ body, input {
 #inputsControls div button:hover {
     background-color: #3F5A73;
 }
-#alignButton {
+#alignContainer {
+    display: flex;
+    flex-direction: row;
+}
+.alignButton {
+    outline: none;
+    border: none;
+    color: white;
     background-color: #2D2D52;
-    font-size: var(--mainFontSize);
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: "Inter";
-    padding: 7px;
-    border-radius: 4px;
 }
-#alignButton:hover {
+.alignButton:hover {
     background-color: #3F3F73;
 }
 #inspecting {

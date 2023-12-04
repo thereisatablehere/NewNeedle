@@ -12,6 +12,8 @@ if(DEBUG) {
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
+let backtrack = false;
+
 let match = 2;
 let mismatch = -1;
 let gap = -2;
@@ -229,10 +231,12 @@ function align() {
     xPos = 0;
     yPos = 0;
 
-    //backtracking(tops, lefts, match, mismatch, gap);
-
-    pointerMatrix(tops, lefts, match, mismatch, gap);
-    
+    if(backtrack) {
+        backtracking(tops, lefts, match, mismatch, gap);
+    }
+    else {
+        pointerMatrix(tops, lefts, match, mismatch, gap);
+    }
 
     // console.log(yAlignmentSequence);
     // console.log(xAlignmentSequence);
@@ -379,7 +383,7 @@ function validateScoreInputs() {
     }
 }
 
-function addInputsToArray() {
+function addInputsToArray(backtracking) {
     validateScoreInputs();
     // reset stuff
     document.querySelector("table").innerHTML = "";
@@ -400,5 +404,6 @@ function addInputsToArray() {
         sequences.push(inputs[i].value);
     }
 
+    backtrack = backtracking;
     align();
 }
