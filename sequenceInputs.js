@@ -1,4 +1,4 @@
-let parent = document.getElementById("inputs");
+let parent = document.getElementById("inputsSequences");
 
 function removeSequence() {
     if(parent.children.length > 2) {
