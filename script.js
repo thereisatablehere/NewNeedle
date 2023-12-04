@@ -364,10 +364,13 @@ function align() {
     console.log(content);
 }
 
-// make sure that no score inputs are just -
+// make sure that no score inputs are empty or just -
 function validateScoreInputs() {
     let childs = document.getElementById("inputsScores").children;
     for(let i = 0; i < childs.length; i++) {
+        if(childs[i].value.length == 0) {
+            childs[i].value = 0;
+        }
         if(childs[i].value.length == 1) {
             if(childs[i].value == "-") {
                 childs[i].value = 0;

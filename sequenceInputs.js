@@ -59,9 +59,4 @@ function validateInputSequence(input, isSequence) {
             input.value = first;
         }
     }
-
-    // special case for when score input is empty
-    if(!(isSequence) && (input.value.length < 1)) {
-        input.value = 0;
-    }
 }
