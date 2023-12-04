@@ -12,6 +12,10 @@ if(DEBUG) {
 // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 // let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
+let match = 2;
+let mismatch = -1;
+let gap = -2;
+
 let yAlignmentSequence = "";
 let xAlignmentSequence = "";
 
@@ -113,10 +117,6 @@ function align() {
 
     let tops = [];
     let lefts = [];
-
-    let match = 2;
-    let mismatch = -1;
-    let gap = -2;
     
     let index = -1;
     let maxLength = -1;
@@ -364,13 +364,34 @@ function align() {
     console.log(content);
 }
 
+// make sure that no score inputs are just -
+function validateScoreInputs() {
+    let childs = document.getElementById("inputsScores").children;
+    for(let i = 0; i < childs.length; i++) {
+        if(childs[i].value.length == 1) {
+            if(childs[i].value == "-") {
+                childs[i].value = 0;
+            }
+        }
+    }
+}
+
 function addInputsToArray() {
+    validateScoreInputs();
     // reset stuff
     document.querySelector("table").innerHTML = "";
     document.getElementById("output").innerHTML = "<p style='color: #4FC3F7;'><strong>Aligned Sequences</strong></p>";
     sequences = [];
 
-    let inputs = document.getElementById("inputs").children;
+    // get sequences from inputs
+    let inputs = document.getElementById("inputsSequences").children;
+
+    // get scores from inputs
+    let childs = document.getElementById("inputsScores").children;
+    match = parseInt(childs[0].value);
+    mismatch = parseInt(childs[1].value);
+    gap = parseInt(childs[2].value);
+    console.log(match, mismatch, gap);
 
     for(let i = 0; i < inputs.length; i++) {
         sequences.push(inputs[i].value);

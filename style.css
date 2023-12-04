@@ -10,20 +10,27 @@ body {
 body, input {
     font-family: "Inter";
 }
-#inputs, #inputsControls {
+#inputsContainer {
+    display: flex;
+    flex-direction: row;
+}
+#inputsContainer div:first-child {
+    margin-right: 50px;
+}
+.inputs, #inputsControls {
     display: flex;
     width: 200px;
 }
-#inputs input, #inputsControls div button, #alignButton {
+.inputs input, #inputsControls div button, #alignButton {
     outline: none;
     border: none;
     background-color: #2D4052;
     color: white;
 }
-#inputs, #inputsControls {
+.inputs, #inputsControls {
     flex-direction: column;
 }
-#inputs input {
+.inputs input {
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 5px;

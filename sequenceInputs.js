@@ -11,20 +11,18 @@ function addSequence() {
     parent.appendChild(element);    
     // add input validation function to input
     element.addEventListener("input", function(){
-        validateInputSequence(element)
+        validateInputSequence(element, true)
     });
 }
 
-const acceptedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
-function test(){console.log("test");}
+const acceptedCharsSequence = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
+const acceptedCharsScore = "-0123456789";
 /**
- * This function basically validates input sequences to ensure only 
- * letters and dashes are allowed, and converts all letters to uppercase.
+ * This function validates input sequences to ensure only 
+ * accepted input characters are allowed.
  * This function is performed after each time an input is changed.
- * 
- * @param input html input element
  */
-function validateInputSequence(input) {
+function validateInputSequence(input, isSequence) {
     let sequence = input.value;
 
     if(sequence.length > 0) {
@@ -32,7 +30,13 @@ function validateInputSequence(input) {
 
         // have to do try catch because when checking plus sign, there is a reg ex error
         try {
-            let check = acceptedChars.search((sequence[sequence.length - 1]).toUpperCase());
+            let check = "";
+            if(isSequence) {
+                check = acceptedCharsSequence.search((sequence[sequence.length - 1]).toUpperCase());
+            }
+            else {
+                check = acceptedCharsScore.search((sequence[sequence.length - 1]).toUpperCase());
+            }
             
             if(check > -1) {
                 valid = true;
@@ -54,5 +58,10 @@ function validateInputSequence(input) {
         else {
             input.value = first;
         }
+    }
+
+    // special case for when score input is empty
+    if(!(isSequence) && (input.value.length < 1)) {
+        input.value = 0;
     }
 }
