@@ -68,12 +68,15 @@ function backtracking(tops, lefts, match, mismatch, gap) {
 }
 
 function pointerMatrix(tops, lefts, match, mismatch, gap) {
-    pRow = Array(tops[0].length + 1).fill(0);
-    pRow[0] = 3;
-    pointer = Array(lefts[0].length + 1).fill(pRow);
     pointer[0] = Array(tops[0].length + 1).fill(4);
+    for (let i = 1; i < lefts[0].length + 1; i++){
+        pRow = Array(tops[0].length + 1).fill(0);
+        pRow[0] = 3;
+        pointer[i] = pRow;
+    }
+    
 
-    console.log(pointer);
+    //console.log(pointer);
     
     //Populate grid
     for (let y = 1; y < lefts[0].length + 1; y++){
@@ -89,27 +92,55 @@ function pointerMatrix(tops, lefts, match, mismatch, gap) {
             let curScore = Math.max(diagScore, leftScore, upScore);
             content[y+1][x+1] = curScore;
             
-            console.log(y + ", " + x + ", " + pointer[y][x]);
-            // //Fill pointer matrix
-            // if (curScore == diagScore) {
-            //     pointer[y][x] += 2;
-            // }
-            // //Use higher weights for adding gaps
-            // if (curScore == upScore) {
-            //     pointer[y][x] += 3;
-            // }
-            // if (curScore == leftScore) {
-            //     pointer[y][x] += 4;
-            // }
-            console.log(y + ", " + x + ", " + pointer[y][x]);
+            //console.log(y + ", " + x + ", " + pointer[y][x]);
+            //Fill pointer matrix
+            if (curScore == diagScore) {
+                pointer[y][x] += 2;
+            }
+            //Use higher weights for adding gaps
+            if (curScore == upScore) {
+                pointer[y][x] += 3;
+            }
+            if (curScore == leftScore) {
+                pointer[y][x] += 4;
+            }
+            //console.log(y + ", " + x + ", " + pointer[y][x]);
         }
     }
 
     console.log(pointer);
 
     //Get alignment through pointer matrix
-    // let yIdx = tops[0].length;
-    // let xIdx = lefts[0].length;
+    let yIdx = tops[0].length;
+    let xIdx = lefts[0].length;
+
+    let count = 0;
+    while (yIdx > 0 || xIdx > 0) {
+        let val = pointer[yIdx][xIdx];
+        if (count >= 50) {
+            console.log("break");
+            break;
+        }
+        if (val == 2 || val == 5 || val == 6 || val == 9) {
+            yAlignmentSequence = content[yIdx + 1][0] + yAlignmentSequence;
+            xAlignmentSequence = content[0][xIdx + 1] + xAlignmentSequence;
+            yIdx--;
+            xIdx--;
+        }
+        else if (val == 3 || val == 7) {
+            yAlignmentSequence = content[yIdx + 1][0] + yAlignmentSequence;
+            xAlignmentSequence = "-" + xAlignmentSequence;
+            yIdx--;
+        }
+        else if (val == 4) {
+            yAlignmentSequence = "-" + yAlignmentSequence;
+            xAlignmentSequence = content[0][xIdx + 1] + xAlignmentSequence;
+            xIdx--; 
+        }
+        console.log(yIdx + ", " + xIdx);
+        count++;
+    }
+    console.log(count);
 }
 
 function align() {
@@ -124,7 +155,7 @@ function align() {
     let maxLength = -1;
 
     yAlignmentSequence = "";
-    xAlignmentSequence = "";
+    xAlignmentSequence = "";    
 
     // find longest sequence
     for(let sequence of sequences) {
