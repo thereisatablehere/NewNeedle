@@ -4,10 +4,6 @@ let pathColor = "#EC407A";
 
 // declared in global scope because both align and addInputsToArray function use it
 let sequences = [];
-// for debugging
-// sequences = ["GCATGCG", "GATTACA", "AT-AT"];
-// sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
-// let sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
 
 let backtrack = false;
 
@@ -558,6 +554,9 @@ if(DEBUG) {
     sequences = ["GCATGCG", "GATTACA"];
     // sequences = ["ACTGATTCA", "ACGCATCA"];
     // sequences = ["TCCTA", "TCATA"];
+    // sequences = ["GCATGCG", "GATTACA", "AT-AT"];
+    // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
+    // sequences = ["GCATGCG", "GATTACA", "AT-AT", "AAT"];
     match = 2;
     mismatch = -3;
     gap = -2;
