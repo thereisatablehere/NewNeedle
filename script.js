@@ -422,6 +422,8 @@ function align() {
                 for(let check = 0; check < arrowCells.length; check++) {
                     if((compare[0] == arrowCells[check][0]) && (compare[1] == arrowCells[check][1])/* && !(leftOrTopEdge)*/) {
                         data.style.color = pathColor;
+                        data.style.fontWeight = "bold";
+
                         let temp = data.innerHTML;
 
                         let arrowElem = document.createElement("p");
