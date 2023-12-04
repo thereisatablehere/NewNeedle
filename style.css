@@ -24,6 +24,12 @@ body, input {
     display: flex;
     width: 200px;
 }
+button {
+    transition: background-color 0.25s, transform 0.15s;
+}
+button:active{
+    transform: scale(1.1);
+}
 .inputs input, #inputsControls div:first-child button {
     outline: none;
     border: none;
