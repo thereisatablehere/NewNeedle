@@ -517,32 +517,39 @@ function validateScoreInputs() {
 }
 
 function addInputsToArray(backtracking) {
-    if(!(DEBUG)) {
-        validateScoreInputs();
-    }
-    // reset stuff
-    document.querySelector("table").innerHTML = "";
-    document.getElementById("output").innerHTML = "<p style='color: #4FC3F7;'><strong>Aligned Sequences</strong></p>";
-    sequences = [];
-
     // get sequences from inputs
     let inputs = document.getElementById("inputsSequences").children;
-
-    // get scores from inputs
-    if(!(DEBUG)) {
-        let childs = document.getElementById("inputsScores").children;
-        match = parseInt(childs[0].value);
-        mismatch = parseInt(childs[1].value);
-        gap = parseInt(childs[2].value);
-        console.log(match, mismatch, gap);
-    }
+    let noEmptySequences = true;
+    sequences = [];
 
     for(let i = 0; i < inputs.length; i++) {
         sequences.push(inputs[i].value);
-    }
 
-    backtrack = backtracking;
-    align();
+        if(inputs[i].value.length < 1) {
+            noEmptySequences = false;
+            break;
+        }
+    }
+    
+    if(noEmptySequences) {
+        if(!(DEBUG)) {
+            validateScoreInputs();
+        }
+        // reset stuff
+        document.querySelector("table").innerHTML = "";
+        document.getElementById("output").innerHTML = "<p style='color: #4FC3F7;'><strong>Aligned Sequences</strong></p>";
+
+        // get scores from inputs
+        if(!(DEBUG)) {
+            let childs = document.getElementById("inputsScores").children;
+            match = parseInt(childs[0].value);
+            mismatch = parseInt(childs[1].value);
+            gap = parseInt(childs[2].value);
+        }
+
+        backtrack = backtracking;
+        align();
+    }
 }
 
 if(DEBUG) {
