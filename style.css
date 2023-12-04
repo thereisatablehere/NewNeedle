@@ -68,7 +68,7 @@ body, input {
 #inputsControls button:hover {
     cursor: pointer;
 }
-#inputsControls div button:hover {
+#inputsControls div:first-child button:hover {
     background-color: #3F5A73;
 }
 #alignContainer {
