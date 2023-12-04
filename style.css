@@ -54,12 +54,13 @@ body, input {
 }
 #inputsControls div button:not(.alignButton) {
     font-size: 20px;
-}
-#inputsControls div button {
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 7px;
     padding-right: 7px;
+}
+#inputsControls div button {
+    font-family: "Inter";
     margin-right: 5px;
     margin-left: 5px;
     border-radius: 3px;
@@ -82,7 +83,10 @@ body, input {
     font-size: 17px;
     margin-top: 10px;
     margin-bottom: 10px;
-    font-family: "Inter";
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .alignButton:hover {
     background-color: #3F3F73;
